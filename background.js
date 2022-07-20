@@ -1,7 +1,19 @@
 
 let color = '#3aa757';
 
-let json = fetch('./template.json').then(results => results.json()).then(console.log);
+//let json = fetch('./template.json').then(results => results.json()).then(console.log);
+let json = {
+    "webtoon": {
+        "some": "value"
+    },
+    "manga": {
+        "some": "value"
+    },
+    "anime": {
+        "some": "value"
+    }
+}
+
 
 chrome.runtime.onInstalled.addListener(() => {
     chrome.storage.sync.set({ color });
@@ -10,10 +22,13 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         let data;
-        if ("webtoonTracker" in localStorage){
-            data = JSON.parse(localStorage.getItem("webtoonTracker"));
+        //console.log(isEmptyObj());
+        console.log("json: ", json);
+        if (chrome.storage.sync.get(["webtoonTracker"]).then()){
+            console.log(chrome.storage.sync.get(["webtoonTracker"]).then());
+            data = JSON.parse(chrome.storage.sync.get(["webtoonTracker"]).then());
         } else {
-            localStorage.setItem('webtoonTracker', json);
+            chrome.storage.sync.set({webtoonTracker: json}).then();
             data = json;
         }
 
@@ -22,3 +37,12 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         }
     }
 );
+
+function isEmptyObj() {
+    Object.values(json).every(value => {
+        if (value === null) {
+            return true;
+        }
+        return false;
+    });
+}
