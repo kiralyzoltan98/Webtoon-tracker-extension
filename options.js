@@ -1,4 +1,4 @@
-let page = document.getElementById("buttonDiv");
+//let table = document.getElementById("table");
 let selectedClassName = "current";
 const presetButtonColors = ["#3aa757", "#e8453c", "#f9bb2d", "#4688f1"];
 
@@ -37,10 +37,56 @@ function constructOptions(buttonColors) {
 
             // …and register a listener for when that button is clicked
             button.addEventListener("click", handleButtonClick);
-            page.appendChild(button);
+            //page.appendChild(button);
         }
     });
-}
 
-// Initialize the page by constructing the color options
+}
+chrome.storage.sync.get("webtoonTracker", (data) => {
+    let tableData = data.webtoonTracker;
+
+    console.log("wbtdata: ", tableData);
+
+    // Create a table element
+    let table = document.createElement("table");
+
+    // Create table row tr element of a table
+    let tr = table.insertRow(-1);
+
+    Object.keys(tableData).forEach(key => {
+        console.log(key, tableData[key]);
+        // Create the table header th element
+        let header = document.createElement("th");
+        let chHeader = document.createElement("th");
+        header.innerHTML = key;
+        chHeader.innerHTML = "Chapter";
+
+        // Append columnName to the table row
+        tr.appendChild(header);
+        tr.appendChild(chHeader);
+
+        // Add the newly created table containing json data
+        let el = document.getElementById("table");
+        el.innerHTML = "";
+        el.appendChild(table);
+    });
+
+    Object.keys(tableData).forEach(key => {
+        trow = table.insertRow(-1);
+        // Adding the data to the table
+        Object.keys(tableData[key]).forEach(key2 => {
+            let titleCell = trow.insertCell(-1);
+            let chapterCell = trow.insertCell(-1);
+            titleCell.innerHTML = key2;
+            chapterCell.innerHTML = tableData[key][key2];
+        })
+
+        // Add the newly created table containing json data
+        let el = document.getElementById("table");
+        el.innerHTML = "";
+        el.appendChild(table);
+    });
+});
+
+// Initialize the page by constructing the table data
 constructOptions(presetButtonColors);
