@@ -11,6 +11,10 @@ let json = {
 }
 
 chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo, tab) {
+
+
+
+
         if (changeInfo.url) {
             let data = await chrome.storage.sync.get(["webtoonTracker"])
 
