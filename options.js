@@ -1,8 +1,8 @@
-
 //every second, check if the data has changed and if so, update the table
 setInterval(function () {
     chrome.storage.sync.get(["webtoonTracker"], function (data) {
-        if (data) {
+        if (data.webtoonTracker) {
+            //console.log("updateTable data: ", data.webtoonTracker);
             updateTable(data.webtoonTracker);
         }
     });
@@ -69,13 +69,29 @@ chrome.storage.sync.get("webtoonTracker", (data) => {
     });
 });
 
+//ctrl+s call saveData function prevent default action of ctrl+s
+document.addEventListener("keydown", function (e) {
+    if (e.keyCode === 83 && e.ctrlKey) {
+        e.preventDefault();
+        saveData();
+    }
+});
+
 //call saveData function on click of save button
 document.getElementById("save").addEventListener("click", saveData);
 
-
+//bottom right toast message that says "Saved"
+function toast() {
+    var x = document.getElementById("snackbar");
+    x.className = "show";
+    setTimeout(function () {
+        x.className = x.className.replace("show", "");
+    }, 3000);
+}
 
 //function to save data on click of save button
 function saveData() {
+    toast();
     // let json = {
     //     Webtoon: {
     //         write: "1"
