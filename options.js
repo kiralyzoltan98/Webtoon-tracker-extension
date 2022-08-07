@@ -1,8 +1,7 @@
-//every second, check if the data has changed and if so, update the table
+//every .1 second, check if the data has changed and if so, update the table
 setInterval(function () {
     chrome.storage.sync.get(["webtoonTracker"], function (data) {
         if (data.webtoonTracker) {
-            //console.log("updateTable data: ", data.webtoonTracker);
             updateTable(data.webtoonTracker);
         }
     });
@@ -28,6 +27,48 @@ function updateTable(data) {
     }
 }
 
+//create html button on page load under each table last row that calls addRow() on click
+document.addEventListener("DOMContentLoaded", function () {
+    let tableData = document.getElementById("container");
+    let table = tableData.getElementsByTagName("table");
+    for (let i = 0; i < table.length; i++) {
+        let tableHeader = table[i].getElementsByTagName("thead")[0];
+        let tableHeaderText = tableHeader.getElementsByTagName("th")[0].innerText;
+        let tableHeaderButton = document.createElement("button");
+        tableHeaderButton.innerText = "Add Row";
+        tableHeaderButton.onclick = function () {
+            addRow(tableHeaderText);
+        }
+        tableHeader.appendChild(tableHeaderButton);
+    }
+});
+
+//button that ads a new row to the table
+function addRow(tablePressed) {
+    let currentTable = 0;
+    if (tablePressed === "Manga") {
+        currentTable = 1;
+    } else if (tablePressed === "Anime") {
+        currentTable = 2;
+    }
+    let tableData = document.getElementById("container");
+    let table = tableData.getElementsByTagName("table");
+        let tableBody = table[currentTable].getElementsByTagName("tbody")[0];
+        let tableHeader = table[currentTable].getElementsByTagName("thead")[0];
+        let tableHeaderText = tableHeader.getElementsByTagName("th")[0].innerText;
+        let tableRows = tableBody.getElementsByTagName("tr");
+        let newRow = tableBody.insertRow(tableRows.length);
+        let newCell1 = newRow.insertCell(0);
+        let newCell2 = newRow.insertCell(1);
+        let newInput1 = document.createElement("input");
+        newInput1.type = "text";
+        newInput1.value = "";
+        newCell1.appendChild(newInput1);
+        let newInput2 = document.createElement("input");
+        newInput2.type = "text";
+        newInput2.value = "";
+        newCell2.appendChild(newInput2);
+}
 
 chrome.storage.sync.get("webtoonTracker", (data) => {
     let tableData = data.webtoonTracker;
@@ -92,22 +133,22 @@ function toast() {
 //function to save data on click of save button
 function saveData() {
     toast();
-    // let json = {
-    //     Webtoon: {
-    //         write: "1"
-    //     },
-    //     Manga: {
-    //         your: "2"
-    //     },
-    //     Anime: {
-    //         titles: "3"
-    //     }
-    // }
-    // chrome.storage.sync.set({webtoonTracker: json});
-
     let data = {};
     let tableData = document.getElementById("container");
     let table = tableData.getElementsByTagName("table");
+    //remove empty rows
+    for (let i = 0; i < table.length; i++) {
+        let tableBody = table[i].getElementsByTagName("tbody")[0];
+        let tableRows = tableBody.getElementsByTagName("tr");
+        for (let j = 0; j < tableRows.length; j++) {
+            let tableCells = tableRows[j].getElementsByTagName("td");
+            let tableCellText = tableCells[0].getElementsByTagName("input")[0].value;
+            let tableCellValue = tableCells[1].getElementsByTagName("input")[0].value;
+            if (tableCellValue === "") {
+                tableBody.removeChild(tableRows[j]);
+            }
+        }
+    }
     for (let i = 0; i < table.length; i++) {
         let tableBody = table[i].getElementsByTagName("tbody")[0];
         let tableHeader = table[i].getElementsByTagName("thead")[0];
@@ -121,6 +162,5 @@ function saveData() {
             data[tableHeaderText][tableCellText] = tableCellValue;
         }
     }
-    console.log("data: ", data);
     chrome.storage.sync.set({webtoonTracker: data});
 }
