@@ -32,7 +32,7 @@ chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo, tab) {
                     if (chapter) {
                         if (chapter[0]) {
                             //console.log("chapter for: "+ key2 + ", ", chapter[0]);
-                            if (chapter[0] > data.webtoonTracker[key][key2]) {
+                            if (parseInt(chapter[0]) > parseInt(data.webtoonTracker[key][key2])) {
                                 data.webtoonTracker[key][key2] = chapter[0];
                                 chrome.storage.sync.set({webtoonTracker: data.webtoonTracker});
                                 //console.log("new data set from url change: ", data.webtoonTracker);

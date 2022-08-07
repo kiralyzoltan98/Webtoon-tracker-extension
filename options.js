@@ -137,18 +137,18 @@ function saveData() {
     let tableData = document.getElementById("container");
     let table = tableData.getElementsByTagName("table");
     //remove empty rows
-    for (let i = 0; i < table.length; i++) {
-        let tableBody = table[i].getElementsByTagName("tbody")[0];
-        let tableRows = tableBody.getElementsByTagName("tr");
-        for (let j = 0; j < tableRows.length; j++) {
-            let tableCells = tableRows[j].getElementsByTagName("td");
-            let tableCellText = tableCells[0].getElementsByTagName("input")[0].value;
-            let tableCellValue = tableCells[1].getElementsByTagName("input")[0].value;
-            if (tableCellValue === "") {
-                tableBody.removeChild(tableRows[j]);
-            }
-        }
-    }
+    // for (let i = 0; i < table.length; i++) {
+    //     let tableBody = table[i].getElementsByTagName("tbody")[0];
+    //     let tableRows = tableBody.getElementsByTagName("tr");
+    //     for (let j = 0; j < tableRows.length; j++) {
+    //         let tableCells = tableRows[j].getElementsByTagName("td");
+    //         let tableCellText = tableCells[0].getElementsByTagName("input")[0].value;
+    //         let tableCellValue = tableCells[1].getElementsByTagName("input")[0].value;
+    //         if (tableCellValue === "") {
+    //             tableBody.removeChild(tableRows[j]);
+    //         }
+    //     }
+    // }
     for (let i = 0; i < table.length; i++) {
         let tableBody = table[i].getElementsByTagName("tbody")[0];
         let tableHeader = table[i].getElementsByTagName("thead")[0];
