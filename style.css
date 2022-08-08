@@ -1,6 +1,13 @@
 /* table header align center */
 table th {
-    text-align: right;
+    text-align: center;
+}
+table {
+    margin-top: 5%;
+}
+
+thead button {
+    margin-left: 70%;
 }
 
 #snackbar {

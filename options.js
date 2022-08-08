@@ -16,6 +16,7 @@ function updateTable(data) {
         let tableHeader = table[i].getElementsByTagName("thead")[0];
         let tableHeaderText = tableHeader.getElementsByTagName("th")[0].innerText;
         let tableRows = tableBody.getElementsByTagName("tr");
+        tableHeader.getElementsByTagName("th")[0].colSpan = 2;
         for (let j = 0; j < tableRows.length; j++) {
             let tableCells = tableRows[j].getElementsByTagName("td");
             let tableCellText = tableCells[0].getElementsByTagName("input")[0].value;
@@ -139,7 +140,7 @@ function saveData() {
     for (let i = 0; i < table.length; i++) {
         let tableBody = table[i].getElementsByTagName("tbody")[0];
         let tableRows = tableBody.getElementsByTagName("tr");
-        for (let j = 0; j < tableRows.length; j++) {
+        for (let j = tableRows.length-1; j > -1; j--) {
             let tableCells = tableRows[j].getElementsByTagName("td");
             let tableCellText = tableCells[0].getElementsByTagName("input")[0].value;
             let tableCellValue = tableCells[1].getElementsByTagName("input")[0].value;
