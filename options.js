@@ -7,6 +7,15 @@ setInterval(function () {
     });
 }, 100);
 
+setInterval(function () {
+    let open = document.getElementById("open");
+    if (open){
+        open.onclick = function () {
+            chrome.tabs.create({url: 'options.html'});
+        };
+    }
+}, 1000);
+
 //function to update the table
 function updateTable(data) {
     let tableData = document.getElementById("container");
@@ -28,21 +37,57 @@ function updateTable(data) {
     }
 }
 
-//create html button on page load under each table last row that calls addRow() on click
+//add onclick addRow(tableHeaderText) listener on document load to add0, add1, and add2 buttons
 document.addEventListener("DOMContentLoaded", function () {
-    let tableData = document.getElementById("container");
-    let table = tableData.getElementsByTagName("table");
-    for (let i = 0; i < table.length; i++) {
-        let tableHeader = table[i].getElementsByTagName("thead")[0];
-        let tableHeaderText = tableHeader.getElementsByTagName("th")[0].innerText;
-        let tableHeaderButton = document.createElement("button");
-        tableHeaderButton.innerText = "Add Row";
-        tableHeaderButton.onclick = function () {
-            addRow(tableHeaderText);
-        }
-        tableHeader.appendChild(tableHeaderButton);
+    let add0 = document.getElementById("add0");
+    add0.addEventListener("click", function () {
+        addRow("Webtoon");
     }
+    );
+    let add1 = document.getElementById("add1");
+    add1.addEventListener("click", function () {
+        addRow("Manga");
+    }
+    );
+    let add2 = document.getElementById("add2");
+    add2.addEventListener("click", function () {
+        addRow("Anime");
+    }
+    );
+    createInfoElement();
+    //call saveData function on click of save button
+    document.getElementById("save").addEventListener("click", saveData);
 });
+
+const textInfo = "<b>How to use this extension:</b><br>1. Click the \"Add Row\" button to add a new row to the table." +
+    "<br>2. Enter the name of the webtoon/manga/anime you want to track in the first cell of the row." +
+    "<br>3. Enter the number of chapters you'r currently at in the second cell of the row." +
+    "<br>4. Press Ctrl + s to save the changes." +
+    "<br><b>Thats it!</b> The next time you navigate to a webtoon/manga/anime page, the extension will automatically update the table with the number of chapters you're currently at. (if it's greater than the number you entered)" +
+    "<br><br>Made by: <b>Király Zoltán</b>";
+
+//create bottom right circle information icon that displays info text on hover
+function createInfoElement() {
+    let infoText = document.createElement("div");
+    infoText.id = "infoText";
+    infoText.classList.add("infoText");
+    infoText.innerHTML = textInfo;
+    infoText.style.display = "none";
+    document.body.appendChild(infoText);
+
+    let info = document.createElement("div");
+    info.classList.add("info");
+    info.innerHTML = "ⓘ";
+    info.addEventListener("click", function () {
+        if (infoText.style.display === "none") {
+            infoText.style.display = "block";
+        } else {
+            infoText.style.display = "none";
+        }
+    });
+    document.body.appendChild(info);
+}
+
 
 //button that ads a new row to the table
 function addRow(tablePressed) {
@@ -118,9 +163,6 @@ document.addEventListener("keydown", function (e) {
         saveData();
     }
 });
-
-//call saveData function on click of save button
-document.getElementById("save").addEventListener("click", saveData);
 
 //bottom right toast message that says "Saved"
 function toast() {

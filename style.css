@@ -1,13 +1,56 @@
 /* table header align center */
 table th {
+    font-size: 20px;
     text-align: center;
 }
 table {
-    margin-top: 5%;
+    margin-top: 8%;
 }
 
-thead button {
-    margin-left: 70%;
+.button-div {
+    margin-top: 10%;
+    text-align: center;
+}
+
+.info {
+    font-family: Arial;
+    position: absolute;
+    right: 1.5%;
+    bottom: 2.8%;
+    font-size: 33px;
+    color: white;
+    cursor: pointer;
+    z-index: 1;
+    padding-left: 7px;
+    background-color: #0d6efd;
+    height: 50px;
+    border-radius: 50%;
+    width: 50px;
+    border: 1px solid white;
+    align-items:center;
+    justify-content:center;
+}
+
+.infoText {
+    font-family: Arial;
+    position: absolute;
+    right: 5%;
+    bottom: 8%;
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+    z-index: 1;
+    padding-left: 10px;
+    padding-top: 6px;
+    padding-right: 6px;
+    width: 33%;
+    height: 25%;
+    background-color: #42b0f5;
+    border-radius: 10%;
+    border: 1px solid white;
+    align-items:center;
+    justify-content:center;
+    text-align: justify;
 }
 
 #snackbar {
