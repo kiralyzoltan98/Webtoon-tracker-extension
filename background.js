@@ -25,23 +25,21 @@ chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo, tab) {
             //if changeInfo.url contains any key from data.webtoonTracker then update its value
             for (let key in data.webtoonTracker) {
                 for (let key2 in data.webtoonTracker[key]) {
-                    let title = key2.replace(/\s/g , "-") + "-chapter-";
-                    let regex = new RegExp( "(?<=" + title + ")([0-9]*?)(?=\.html)", "g");
-                    //console.log("regex: ", regex);
+                    let title = key2.replace(/\s/g , "-");
+                    let regex = new RegExp( title + '.*chapter-(\\d+)', "gi");
                     let chapter = changeInfo.url.match(regex);
+                    let secondRegex = new RegExp( '(\\d+)(?!.*\\d)', "gi");
                     if (chapter) {
                         if (chapter[0]) {
-                            //console.log("chapter for: "+ key2 + ", ", chapter[0]);
-                            if (parseInt(chapter[0]) > parseInt(data.webtoonTracker[key][key2])) {
-                                data.webtoonTracker[key][key2] = chapter[0];
+                            let accualChapter = chapter[0].match(secondRegex)[0];
+                            if (parseInt(accualChapter) > parseInt(data.webtoonTracker[key][key2])) {
+                                data.webtoonTracker[key][key2] = accualChapter;
                                 chrome.storage.sync.set({webtoonTracker: data.webtoonTracker});
-                                //console.log("new data set from url change: ", data.webtoonTracker);
                             }
                         }
                     }
                 }
             }
-            //console.log("Changinfo data: ", changeInfo.url);
         }
     }
 );

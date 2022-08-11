@@ -2,14 +2,25 @@
 table th {
     font-size: 20px;
     text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 table {
+    border: 1px solid #000;
     margin-top: 8%;
+}
+
+table tr {
+    text-align: right;
 }
 
 .button-div {
     margin-top: 10%;
     text-align: center;
+}
+
+.input-even {
+    background-color: #f5f5f5;
 }
 
 .info {

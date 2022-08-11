@@ -99,21 +99,27 @@ function addRow(tablePressed) {
     }
     let tableData = document.getElementById("container");
     let table = tableData.getElementsByTagName("table");
-        let tableBody = table[currentTable].getElementsByTagName("tbody")[0];
-        let tableHeader = table[currentTable].getElementsByTagName("thead")[0];
-        let tableHeaderText = tableHeader.getElementsByTagName("th")[0].innerText;
-        let tableRows = tableBody.getElementsByTagName("tr");
-        let newRow = tableBody.insertRow(tableRows.length);
-        let newCell1 = newRow.insertCell(0);
-        let newCell2 = newRow.insertCell(1);
-        let newInput1 = document.createElement("input");
-        newInput1.type = "text";
-        newInput1.value = "";
-        newCell1.appendChild(newInput1);
-        let newInput2 = document.createElement("input");
-        newInput2.type = "text";
-        newInput2.value = "";
-        newCell2.appendChild(newInput2);
+    let tableBody = table[currentTable].getElementsByTagName("tbody")[0];
+    let tableHeader = table[currentTable].getElementsByTagName("thead")[0];
+    let tableHeaderText = tableHeader.getElementsByTagName("th")[0].innerText;
+    let tableRows = tableBody.getElementsByTagName("tr");
+    let newRow = tableBody.insertRow(tableRows.length);
+    let newCell1 = newRow.insertCell(0);
+    let newCell2 = newRow.insertCell(1);
+    let newInput1 = document.createElement("input");
+    newInput1.type = "text";
+    newInput1.value = "";
+    newInput1.style.width = "100%";
+    newInput1.style.textAlign = "left";
+    newCell1.style.width = "85%";
+    newCell1.appendChild(newInput1);
+    let newInput2 = document.createElement("input");
+    newInput2.type = "text";
+    newInput2.value = "";
+    newInput2.style.width = "100%";
+    newInput2.style.textAlign = "left";
+    newCell2.style.width = "85%";
+    newCell2.appendChild(newInput2);
 }
 
 chrome.storage.sync.get("webtoonTracker", (data) => {
@@ -134,6 +140,7 @@ chrome.storage.sync.get("webtoonTracker", (data) => {
         let tableHeader = document.createElement("thead");
         tableHeader.innerHTML = `<tr><th>${key}</th></tr>`;
         table.appendChild(tableHeader);
+        let even = false;
         for (let key2 in tableData[key]) {
             let row = document.createElement("tr");
             let cell = document.createElement("td");
@@ -141,16 +148,29 @@ chrome.storage.sync.get("webtoonTracker", (data) => {
             input.type = "text";
             input.value = key2;
             input.id = key2;
+            input.style.width = "100%";
+            input.style.textAlign = "left";
             cell.appendChild(input);
+            cell.style.width = "85%";
             row.appendChild(cell);
+            if (even) {
+                input.classList.add("input-even");
+            }
             cell = document.createElement("td");
             input = document.createElement("input");
             input.type = "text";
             input.value = tableData[key][key2];
             input.id = key2;
+            if (even) {
+                input.classList.add("input-even");
+            }
+            input.style.width = "100%";
+            input.style.textAlign = "right";
             cell.appendChild(input);
+            cell.style.width = "15%";
             row.appendChild(cell);
             tableBody.appendChild(row);
+            even = !even;
         }
         table.appendChild(tableBody);
     });
