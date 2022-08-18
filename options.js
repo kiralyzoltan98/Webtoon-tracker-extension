@@ -1,3 +1,8 @@
+//TODO: 1) Store the url on chapter number change and add a 3th input field for jumping to that chapter.
+//TODO: 2) Search tru users browser history and get all the previous urls and add them to the table with the highest chapter number (jump button as well).
+//TODO: 3) Initialize the table with blank rows (for first use).
+//TODO: 4) Make the regex so it will work with chapter/rész/epizód, and not only dashes [-] between the title words but underscores as well [_].
+
 //every .1 second, check if the data has changed and if so, update the table
 setInterval(function () {
     chrome.storage.sync.get(["webtoonTracker"], function (data) {
