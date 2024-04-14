@@ -343,8 +343,8 @@ function convertDataFormat(data) {
             if (typeof data[category][title] === "string") {
                 data[category][title] = {
                     currentChapter: data[category][title],
-                    currentChapterURL: "", // Leaving URL fields empty
-                    nextChapterURL: "",
+                    currentChapterURL: defaultMangaSeeURL, // Leaving URL fields empty
+                    nextChapterURL: defaultMangaSeeURL,
                     nextChapterAvailable: false,
                     completed: false,
                 }
@@ -622,7 +622,9 @@ function checkChapter(url, openNextButton) {
                     resolve(false)
                 }
             } else {
-                console.error(response.error)
+                if (response.error) {
+                    console.error(response.error)
+                }
                 reject(response.error)
             }
         })
